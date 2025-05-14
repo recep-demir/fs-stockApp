@@ -1,7 +1,20 @@
-const mongoose = require('mongoose');
+"use strict"
+/* -------------------------------------------------------
+    | FULLSTACK TEAM | NODEJS / EXPRESS |
+------------------------------------------------------- */
+// MongoDB Connection:
 
-mongoose.connect(process.env.MONGOURI || 'mongodb://localhost:27017/personnelAPI')
-    .then(() => console.log('* DB Connected *'))
-    .catch(() => console.log('* DB Not Connected *'));
+const mongoose = require('mongoose')
 
-module.exports = mongoose;
+const dbConnection = function () {
+    // Connect:
+    mongoose.connect(process.env.MONGODB)
+        .then(() => console.log('* DB Connected * '))
+        .catch((err) => console.log('* DB Not Connected * ', err))
+}
+
+/* ------------------------------------------------------- */
+module.exports = {
+    mongoose,
+    dbConnection
+} 
