@@ -1,5 +1,7 @@
 "use strict"
-
+/* -------------------------------------------------------
+    | FULLSTACK TEAM | NODEJS / EXPRESS |
+------------------------------------------------------- */
 
 const Firm = require('../models/firm');
 const CustomError = require('../helpers/customError');
@@ -21,12 +23,12 @@ module.exports = {
             `
         */
 
-        const result = await res.getModelList(Firm);
+        const data = await res.getModelList(Firm);
 
         res.status(200).send({
             error: false,
             details: await res.getModelListDetails(Firm),
-            result
+            data
         });
     },
 
@@ -43,11 +45,11 @@ module.exports = {
             }
         */
 
-        const result = await Firm.create(req.body);
+        const data = await Firm.create(req.body);
 
         res.status(201).send({
             error: false,
-            result
+            data
         });
     },
 
@@ -57,11 +59,11 @@ module.exports = {
             #swagger.summary = "Get Single Firm"
         */
 
-        const result = await Firm.findById(req.params.id);
+        const data = await Firm.findById(req.params.id);
 
         res.status(200).send({
             error: false,
-            result
+            data
         });
     },
 
@@ -78,13 +80,13 @@ module.exports = {
             }
         */
 
-        const result = await Firm.findByIdAndUpdate(req.params.id, req.body, { runValidators: true, new: true });
+        const data = await Firm.findByIdAndUpdate(req.params.id, req.body, { runValidators: true, new: true });
 
-        if (!result) throw new CustomError("Update failed, data is not found or already updated", 404);
+        if (!data) throw new CustomError("Update failed, data is not found or already updated", 404);
 
         res.status(202).send({
             error: false,
-            result
+            data
         });
     },
 
@@ -94,13 +96,13 @@ module.exports = {
             #swagger.summary = "Delete Firm"
         */
 
-        const result = await Firm.findByIdAndDelete(req.params.id)
+        const data = await Firm.findByIdAndDelete(req.params.id)
 
-        if (!result) throw new CustomError("Delete failed, data is not found or already deleted", 404);
+        if (!data) throw new CustomError("Delete failed, data is not found or already deleted", 404);
 
         res.status(200).send({
             error: false,
-            result
+            data
         });
     },
 }

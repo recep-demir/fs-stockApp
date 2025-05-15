@@ -1,5 +1,7 @@
 "use strict"
-
+/* -------------------------------------------------------
+    | FULLSTACK TEAM | NODEJS / EXPRESS |
+------------------------------------------------------- */
 
 const User = require('../models/user');
 const CustomError = require('../helpers/customError');
@@ -21,12 +23,12 @@ module.exports = {
             `
         */
 
-        const result = await res.getModelList(User);
+        const data = await res.getModelList(User);
 
         res.status(200).send({
             error: false,
             details: await res.getModelListDetails(User),
-            result
+            data
         });
     },
 
@@ -47,11 +49,11 @@ module.exports = {
             }
         */
 
-        const result = await User.create(req.body);
+        const data = await User.create(req.body);
 
         res.status(201).send({
             error: false,
-            result
+            data
         });
     },
 
@@ -61,11 +63,11 @@ module.exports = {
             #swagger.summary = "Get Single User"
         */
 
-        const result = await User.findById(req.params.id);
+        const data = await User.findById(req.params.id);
 
         res.status(200).send({
             error: false,
-            result
+            data
         });
     },
 
@@ -86,13 +88,13 @@ module.exports = {
             }
         */
 
-        const result = await User.findOneAndUpdate({ _id: req.params.id }, req.body, { runValidators: true, new: true });
+        const data = await User.findOneAndUpdate({ _id: req.params.id }, req.body, { runValidators: true, new: true });
 
-        if (!result) throw new CustomError("Update failed, data is not found or already updated", 404);
+        if (!data) throw new CustomError("Update failed, data is not found or already updated", 404);
 
         res.status(202).send({
             error: false,
-            result
+            data
         });
     },
 
@@ -102,13 +104,13 @@ module.exports = {
             #swagger.summary = "Delete User"
         */
 
-        const result = await User.findByIdAndDelete(req.params.id)
+        const data = await User.findByIdAndDelete(req.params.id)
 
-        if (!result) throw new CustomError("Delete failed, data is not found or already deleted", 404);
+        if (!data) throw new CustomError("Delete failed, data is not found or already deleted", 404);
 
         res.status(200).send({
             error: false,
-            result
+            data
         });
     },
 }

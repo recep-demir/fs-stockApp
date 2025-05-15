@@ -1,5 +1,7 @@
 "use strict"
-
+/* -------------------------------------------------------
+    | FULLSTACK TEAM | NODEJS / EXPRESS |
+------------------------------------------------------- */
 
 const Sale = require('../models/sale');
 const Product = require('../models/product');
@@ -22,7 +24,7 @@ module.exports = {
             `
         */
 
-        const result = await res.getModelList(Sale, {}, [
+        const data = await res.getModelList(Sale, {}, [
             { path: 'userId', select: 'username' },
             { path: 'brandId', select: 'name' },
             { path: 'productId', select: 'name' },
@@ -31,7 +33,7 @@ module.exports = {
         res.status(200).send({
             error: false,
             details: await res.getModelListDetails(Sale),
-            result
+            data
         });
     },
 
@@ -55,16 +57,16 @@ module.exports = {
 
         if (currentProduct.quantity < req.body.quantity) throw new CustomError(`There is not enough product-quantity for this sale. current quantity:${currentProduct.quantity}`, 400)
 
-        const result = await Sale.create(req.body);
+        const data = await Sale.create(req.body);
 
-        if (result) {
+        if (data) {
             // Update product quantity
-            await Product.updateOne({ _id: result.productId }, { $inc: { quantity: -result.quantity } });
+            await Product.updateOne({ _id: data.productId }, { $inc: { quantity: -data.quantity } });
         }
 
         res.status(201).send({
             error: false,
-            result
+            data
         });
     },
 
@@ -74,7 +76,7 @@ module.exports = {
             #swagger.summary = "Get Single Sale"
         */
 
-        const result = await Sale.findById(req.params.id).populate([
+        const data = await Sale.findById(req.params.id).populate([
             { path: 'userId', select: 'username' },
             { path: 'brandId', select: 'name' },
             { path: 'productId', select: 'name' },
@@ -82,7 +84,7 @@ module.exports = {
 
         res.status(200).send({
             error: false,
-            result
+            data
         });
     },
 
@@ -112,13 +114,13 @@ module.exports = {
             if (!updatedProduct.modifiedCount) throw new CustomError(`There is not enough product-quantity for this sale.`, 400)
         }
 
-        const result = await Sale.findByIdAndUpdate(req.params.id, req.body, { runValidators: true, new: true });
+        const data = await Sale.findByIdAndUpdate(req.params.id, req.body, { runValidators: true, new: true });
 
-        if (!result) throw new CustomError("Update failed, data is not found or already updated", 404);
+        if (!data) throw new CustomError("Update failed, data is not found or already updated", 404);
 
         res.status(202).send({
             error: false,
-            result
+            data
         });
     },
 
@@ -128,13 +130,13 @@ module.exports = {
             #swagger.summary = "Delete Sale"
         */
 
-        const result = await Sale.findByIdAndDelete(req.params.id)
+        const data = await Sale.findByIdAndDelete(req.params.id)
 
-        if (!result) throw new CustomError("Delete failed, data is not found or already deleted", 404);
+        if (!data) throw new CustomError("Delete failed, data is not found or already deleted", 404);
 
         res.status(200).send({
             error: false,
-            result
+            data
         });
     },
 }

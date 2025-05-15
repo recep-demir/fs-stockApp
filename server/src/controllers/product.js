@@ -1,5 +1,7 @@
 "use strict"
-
+/* -------------------------------------------------------
+    | FULLSTACK TEAM | NODEJS / EXPRESS |
+------------------------------------------------------- */
 
 const Product = require('../models/product');
 const CustomError = require('../helpers/customError');
@@ -21,7 +23,7 @@ module.exports = {
             `
         */
 
-        const result = await res.getModelList(Product, {}, [
+        const data = await res.getModelList(Product, {}, [
             { path: 'categoryId', select: 'name' },
             { path: 'brandId', select: 'name' },
         ]);
@@ -29,7 +31,7 @@ module.exports = {
         res.status(200).send({
             error: false,
             details: await res.getModelListDetails(Product),
-            result
+            data
         });
     },
 
@@ -46,11 +48,11 @@ module.exports = {
             }
         */
 
-        const result = await Product.create(req.body);
+        const data = await Product.create(req.body);
 
         res.status(201).send({
             error: false,
-            result
+            data
         });
     },
 
@@ -60,14 +62,14 @@ module.exports = {
             #swagger.summary = "Get Single Product"
         */
 
-        const result = await Product.findById(req.params.id).populate([
+        const data = await Product.findById(req.params.id).populate([
             { path: 'categoryId', select: 'name' },
             { path: 'brandId', select: 'name' },
         ]);
 
         res.status(200).send({
             error: false,
-            result
+            data
         });
     },
 
@@ -84,13 +86,13 @@ module.exports = {
             }
         */
 
-        const result = await Product.findByIdAndUpdate(req.params.id, req.body, { runValidators: true, new: true });
+        const data = await Product.findByIdAndUpdate(req.params.id, req.body, { runValidators: true, new: true });
 
-        if (!result) throw new CustomError("Update failed, data is not found or already updated", 404);
+        if (!data) throw new CustomError("Update failed, data is not found or already updated", 404);
 
         res.status(202).send({
             error: false,
-            result
+            data
         });
     },
 
@@ -100,13 +102,13 @@ module.exports = {
             #swagger.summary = "Delete Product"
         */
 
-        const result = await Product.findByIdAndDelete(req.params.id)
+        const data = await Product.findByIdAndDelete(req.params.id)
 
-        if (!result) throw new CustomError("Delete failed, data is not found or already deleted", 404);
+        if (!data) throw new CustomError("Delete failed, data is not found or already deleted", 404);
 
         res.status(200).send({
             error: false,
-            result
+            data
         });
     },
 }

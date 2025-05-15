@@ -1,5 +1,7 @@
 "use strict"
-
+/* -------------------------------------------------------
+    | FULLSTACK TEAM | NODEJS / EXPRESS |
+------------------------------------------------------- */
 
 const Purchase = require('../models/purchase');
 const Product = require('../models/product');
@@ -22,7 +24,7 @@ module.exports = {
             `
         */
 
-        const result = await res.getModelList(Purchase, {}, [
+        const data = await res.getModelList(Purchase, {}, [
             { path: 'userId', select: 'username' },
             { path: 'brandId', select: 'name' },
             { path: 'firmId', select: 'name' },
@@ -32,7 +34,7 @@ module.exports = {
         res.status(200).send({
             error: false,
             details: await res.getModelListDetails(Purchase),
-            result
+            data
         });
     },
 
@@ -51,13 +53,13 @@ module.exports = {
 
         req.body.userId = req.user._id
 
-        const result = await Purchase.create(req.body);
+        const data = await Purchase.create(req.body);
 
-        if (result) await Product.updateOne({ _id: result.productId }, { $inc: { quantity: +result.quantity } });
+        if (data) await Product.updateOne({ _id: data.productId }, { $inc: { quantity: +data.quantity } });
 
         res.status(201).send({
             error: false,
-            result
+            data
         });
     },
 
@@ -67,7 +69,7 @@ module.exports = {
             #swagger.summary = "Get Single Purchase"
         */
 
-        const result = await Purchase.findById(req.params.id).populate([
+        const data = await Purchase.findById(req.params.id).populate([
             { path: 'userId', select: 'username' },
             { path: 'brandId', select: 'name' },
             { path: 'firmId', select: 'name' },
@@ -76,7 +78,7 @@ module.exports = {
 
         res.status(200).send({
             error: false,
-            result
+            data
         });
     },
 
@@ -99,9 +101,9 @@ module.exports = {
             currentPurchase = await Purchase.findById(req.params.id); // 10
         };
 
-        const result = await Purchase.findByIdAndUpdate(req.params.id, req.body, { runValidators: true, new: true });
+        const data = await Purchase.findByIdAndUpdate(req.params.id, req.body, { runValidators: true, new: true });
 
-        if (!result) throw new CustomError("Update failed, data is not found or already updated", 404);
+        if (!data) throw new CustomError("Update failed, data is not found or already updated", 404);
 
         if (req.body.quantity) {
             // Calculate the difference
@@ -113,7 +115,7 @@ module.exports = {
 
         res.status(202).send({
             error: false,
-            result
+            data
         });
     },
 
@@ -123,13 +125,13 @@ module.exports = {
             #swagger.summary = "Delete Purchase"
         */
 
-        const result = await Purchase.findByIdAndDelete(req.params.id)
+        const data = await Purchase.findByIdAndDelete(req.params.id)
 
-        if (!result) throw new CustomError("Delete failed, data is not found or already deleted", 404);
+        if (!data) throw new CustomError("Delete failed, data is not found or already deleted", 404);
 
         res.status(200).send({
             error: false,
-            result
+            data
         });
     },
 }
