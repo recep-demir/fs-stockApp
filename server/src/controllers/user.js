@@ -1,7 +1,5 @@
 "use strict"
-/* -------------------------------------------------------
-    | FULLSTACK TEAM | NODEJS / EXPRESS |
-------------------------------------------------------- */
+
 
 const User = require('../models/user');
 const CustomError = require('../helpers/customError');

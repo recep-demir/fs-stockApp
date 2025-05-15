@@ -1,7 +1,5 @@
 "use strict"
-/* -------------------------------------------------------
-    | FULLSTACK TEAM | NODEJS / EXPRESS |
-------------------------------------------------------- */
+
 
 const Product = require('../models/product');
 const CustomError = require('../helpers/customError');
